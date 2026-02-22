@@ -1,8 +1,49 @@
-# ClawArm — AI-Powered Robotic Arm Control via OpenClaw
+<p align="center">
+  <img src="assets/clawarm-logo.png" alt="ClawArm Logo" width="200">
+</p>
 
-[Clawland-AI](https://github.com/Clawland-AI) · [OpenClaw](https://openclaw.ai/) · [pyAgxArm](https://github.com/agilexrobotics/pyAgxArm)
+<h1 align="center">ClawArm</h1>
 
-Control NERO (7-DOF) and Piper (6-DOF) robotic arms with natural language through OpenClaw. Say what you want the arm to do — ClawArm generates and executes the motion.
+<p align="center">
+  <strong>AI-Powered Robotic Arm Control via OpenClaw</strong><br>
+  Say what you want the arm to do. ClawArm makes it happen.
+</p>
+
+<p align="center">
+  <a href="https://github.com/Clawland-AI/clawarm/actions"><img src="https://github.com/Clawland-AI/clawarm/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Clawland-AI/clawarm/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Clawland-AI/clawarm" alt="License"></a>
+  <a href="https://github.com/Clawland-AI/clawarm"><img src="https://img.shields.io/github/stars/Clawland-AI/clawarm?style=social" alt="Stars"></a>
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick Start</a> &middot;
+  <a href="docs/architecture.md">Architecture</a> &middot;
+  <a href="docs/safety.md">Safety Guide</a> &middot;
+  <a href="SECURITY.md">Security Policy</a>
+</p>
+
+---
+
+<p align="center">
+  <img src="assets/clawarm-banner.png" alt="ClawArm — Natural language to robotic arm motion" width="100%">
+</p>
+
+## What is ClawArm?
+
+ClawArm bridges **natural language** and **physical robotic arm motion**. Built on top of [OpenClaw](https://openclaw.ai/), it lets you control NERO (7-DOF) and Piper (6-DOF) robotic arms by simply describing what you want — no manual joint calculations, no coordinate math.
+
+### Key Features
+
+| Feature | Description |
+|---------|-------------|
+| **Natural Language Control** | "Pick up the red block" becomes actual robot motion |
+| **Two Control Modes** | Skill mode (code generation) + Plugin mode (real-time tools) |
+| **Safety Layer** | Joint limits, workspace bounds, velocity caps — every command is validated |
+| **Mock Mode** | Develop and test without physical hardware |
+| **Multi-Arm Support** | NERO 7-DOF and Piper 6-DOF out of the box |
+| **OpenClaw Integration** | Works with OpenClaw's web UI, Feishu, Telegram, and more |
+
+---
 
 ## How It Works
 
@@ -33,17 +74,16 @@ Control NERO (7-DOF) and Piper (6-DOF) robotic arms with natural language throug
    └──────┬──────┘
           ▼
    ┌─────────────┐
-   │  pyAgxArm   │  CAN bus communication
-   │  Driver      │
+   │  Arm Driver  │  CAN bus communication
    └──────┬──────┘
           ▼
       Robot Arm
 ```
 
-**Two control modes:**
+- **Skill Mode**: OpenClaw reads the `agx-arm-codegen` skill, generates a complete Python control script, and executes it. Best for complex, multi-step sequences.
+- **Plugin Mode**: The ClawArm plugin provides `arm_move`, `arm_status`, and `arm_stop` tools that call the bridge server in real time. Best for interactive step-by-step control.
 
-- **Skill Mode**: OpenClaw reads the `agx-arm-codegen` skill, generates a complete Python script, and executes it. Best for complex, multi-step sequences.
-- **Plugin Mode**: The ClawArm OpenClaw plugin provides `arm_move`, `arm_status`, and `arm_stop` tools that call the Python bridge in real time. Best for interactive control.
+---
 
 ## Quick Start
 
@@ -52,16 +92,14 @@ Control NERO (7-DOF) and Piper (6-DOF) robotic arms with natural language throug
 - Linux with CAN interface (SocketCAN)
 - Python 3.10+
 - [OpenClaw](https://openclaw.ai/) installed
-- [pyAgxArm](https://github.com/agilexrobotics/pyAgxArm) installed
-- NERO or Piper arm connected via CAN bus
+- Robotic arm connected via CAN bus
 
 ### 1. Clone and install
 
 ```bash
 git clone https://github.com/Clawland-AI/clawarm.git
 cd clawarm
-pip install -e ".[dev]"
-pip install pyAgxArm  # or: pip install -e ".[arm]"
+pip install -e ".[dev,arm]"
 ```
 
 ### 2. Activate CAN
@@ -73,10 +111,10 @@ sudo bash setup/activate_can.sh
 ### 3. Start the bridge server
 
 ```bash
-# Real hardware
+# With real hardware
 clawarm-bridge
 
-# Mock mode (no hardware needed)
+# Without hardware (mock mode for development)
 CLAWARM_MOCK=true clawarm-bridge
 ```
 
@@ -86,20 +124,22 @@ CLAWARM_MOCK=true clawarm-bridge
 # Copy skill to OpenClaw workspace
 cp -r skills/agx-arm-codegen ~/.openclaw/skills/
 
-# Or for the plugin approach, install the plugin
+# Or install the plugin for real-time tool access
 cd plugin && npm install
 openclaw plugins install ./plugin
 ```
 
 ### 5. Talk to the arm
 
-Open OpenClaw web UI or send a message via Feishu/Telegram:
+Open the OpenClaw web UI or send a message via your configured channel:
 
 ```
 > Move joint 1 to 0.5 radians, then return to zero position
 > Pick up the object at position [0.3, 0.1, 0.2] and place it at [0.3, -0.1, 0.2]
 > Draw a small circle in the XY plane at height 0.3m
 ```
+
+---
 
 ## Project Structure
 
@@ -110,7 +150,7 @@ clawarm/
 ├── plugin/                   OpenClaw Plugin (Plugin Mode)
 │   └── src/tools/            arm_connect, arm_status, arm_move, arm_stop
 ├── bridge/                   Python Bridge Server (FastAPI)
-│   ├── drivers/              agx_driver (real) + mock_driver (dev)
+│   ├── drivers/              Real driver + mock driver for dev
 │   └── safety.py             Joint limits, workspace bounds, velocity caps
 ├── examples/                 Demo scripts
 ├── workspace/                OpenClaw workspace templates (AGENTS.md, SOUL.md)
@@ -120,15 +160,24 @@ clawarm/
 └── tests/                    Bridge server and safety tests
 ```
 
-## Configuration
+---
 
-Copy the example config and adjust for your setup:
+## Supported Arms
+
+| Arm | DOF | Joint Control | Cartesian Control |
+|-----|-----|---------------|-------------------|
+| **NERO** | 7 | `move_j([j1..j7])` radians | `move_p/l([x,y,z,r,p,y])` meters/radians |
+| **Piper** | 6 | `move_j([j1..j6])` radians | `move_p/l([x,y,z,r,p,y])` meters/radians |
+
+---
+
+## Configuration
 
 ```bash
 cp config/openclaw.example.json ~/.openclaw/openclaw.json
 ```
 
-Key settings in `openclaw.json`:
+Key settings:
 
 ```jsonc
 {
@@ -147,22 +196,19 @@ Key settings in `openclaw.json`:
 }
 ```
 
-## Supported Arms
-
-| Arm | DOF | SDK | Joint Angles | Cartesian |
-|-----|-----|-----|-------------|-----------|
-| NERO | 7 | pyAgxArm | `move_j([j1..j7])` rad | `move_p/l([x,y,z,r,p,y])` m/rad |
-| Piper | 6 | pyAgxArm | `move_j([j1..j6])` rad | `move_p/l([x,y,z,r,p,y])` m/rad |
+---
 
 ## Safety
 
-**ClawArm controls real hardware. Read [SECURITY.md](SECURITY.md) before use.**
+> **ClawArm controls real hardware.** Read [SECURITY.md](SECURITY.md) before use.
 
-- Safety layer validates all commands before they reach the arm
-- Joint angle limits enforced per robot type
-- Workspace boundary box prevents out-of-range motion
+- Safety layer validates **all commands** before they reach the arm
+- Per-robot-type joint angle limits enforced automatically
+- Configurable Cartesian workspace boundary box
 - Velocity capped at configurable percentage (default 80%)
-- Emergency stop available via API, OpenClaw tool, and physical button
+- Emergency stop via API, OpenClaw tool, or physical button
+
+---
 
 ## Development
 
@@ -180,15 +226,19 @@ ruff check .
 ## Docker
 
 ```bash
-# Start bridge server in mock mode
+# Mock mode (no hardware)
 docker compose up bridge-mock
 
-# Start bridge server for real hardware (requires --privileged for CAN)
+# Real hardware (requires --privileged for CAN access)
 docker compose up bridge
 ```
+
+---
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
 
-Built by [Clawland-AI](https://github.com/Clawland-AI) · Powered by [OpenClaw](https://openclaw.ai/) 
+<p align="center">
+  Built by <a href="https://github.com/Clawland-AI">Clawland AI</a> &middot; Powered by <a href="https://openclaw.ai/">OpenClaw</a>
+</p>
