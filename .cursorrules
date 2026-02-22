@@ -1,0 +1,30 @@
+# ClawArm Development Rules
+
+## Project Overview
+ClawArm is an AI-powered robotic arm control system using OpenClaw + pyAgxArm.
+It has three main components:
+- `bridge/` — Python FastAPI server wrapping pyAgxArm (the runtime)
+- `plugin/` — OpenClaw TypeScript plugin providing agent tools
+- `skills/` — OpenClaw skill files for code generation
+
+## Code Style
+- Python: follow ruff defaults (E, F, I, W), line length 100
+- TypeScript: standard style, ESM imports with .js extensions
+- All motion values: joints in radians, positions in meters
+
+## Safety Rules
+- NEVER remove or weaken safety checks without explicit approval
+- NEVER increase default speed limits above 80%
+- NEVER disable safety validation in tests (use mock driver instead)
+- ALL new motion commands must pass through SafetyValidator
+
+## Testing
+- Run `pytest -q` before committing (uses mock driver, no hardware needed)
+- Set `CLAWARM_MOCK=true` when running the bridge server without hardware
+- Bridge API tests use httpx AsyncClient with ASGI transport
+
+## Key Conventions
+- `motion_status == 0` means motion is COMPLETE (not == 1)
+- Mode switch requires 1s delay before AND after
+- Robot must be enabled BEFORE switching motion modes
+- NERO = 7 DOF, Piper = 6 DOF

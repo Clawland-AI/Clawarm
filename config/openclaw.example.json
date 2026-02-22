@@ -1,0 +1,52 @@
+{
+  "env": {
+    "QWEN_API_KEY": "your-qwen-api-key-here"
+  },
+
+  "gateway": {
+    "port": 18789,
+    "bind": "loopback"
+  },
+
+  "agents": {
+    "defaults": {
+      "workspace": "~/.openclaw/workspace",
+      "model": {
+        "primary": "qwen/qwen3-235b-a22b"
+      },
+      "thinkingDefault": "off"
+    },
+    "list": [
+      {
+        "id": "clawarm",
+        "default": true,
+        "workspace": "~/.openclaw/workspace-clawarm"
+      }
+    ]
+  },
+
+  "plugins": {
+    "entries": {
+      "clawarm": {
+        "enabled": true,
+        "config": {
+          "bridgeUrl": "http://localhost:8420",
+          "defaultRobot": "nero",
+          "safetyEnabled": true
+        }
+      }
+    }
+  },
+
+  "tools": {
+    "profile": "full"
+  },
+
+  "session": {
+    "dmScope": "main",
+    "reset": {
+      "mode": "daily",
+      "atHour": 4
+    }
+  }
+}

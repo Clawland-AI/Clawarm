@@ -1,0 +1,24 @@
+services:
+  bridge:
+    build: .
+    ports:
+      - "8420:8420"
+    environment:
+      - CLAWARM_HOST=0.0.0.0
+      - CLAWARM_PORT=8420
+      - CLAWARM_SAFETY=true
+      - CLAWARM_MAX_SPEED=80
+    privileged: true
+    network_mode: host
+    restart: unless-stopped
+
+  bridge-mock:
+    build: .
+    ports:
+      - "8420:8420"
+    environment:
+      - CLAWARM_HOST=0.0.0.0
+      - CLAWARM_PORT=8420
+      - CLAWARM_MOCK=true
+      - CLAWARM_SAFETY=true
+    restart: unless-stopped

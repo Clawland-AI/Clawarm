@@ -1,0 +1,38 @@
+{
+  "id": "clawarm",
+  "name": "ClawArm",
+  "description": "AI-powered robotic arm control — connect, move, and monitor NERO/Piper arms via a Python bridge server.",
+  "channels": [],
+  "skills": ["skills"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "bridgeUrl": {
+        "type": "string",
+        "default": "http://localhost:8420",
+        "description": "URL of the ClawArm bridge server"
+      },
+      "defaultRobot": {
+        "type": "string",
+        "enum": ["nero", "piper", "piper_h", "piper_l", "piper_x"],
+        "default": "nero",
+        "description": "Default robot type for connections"
+      },
+      "safetyEnabled": {
+        "type": "boolean",
+        "default": true,
+        "description": "Enable safety validation on the bridge server"
+      }
+    }
+  },
+  "uiHints": {
+    "bridgeUrl": {
+      "label": "Bridge Server URL",
+      "placeholder": "http://localhost:8420"
+    },
+    "defaultRobot": {
+      "label": "Default Robot Type"
+    }
+  }
+}

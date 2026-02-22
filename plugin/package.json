@@ -1,0 +1,20 @@
+{
+  "name": "@clawland/clawarm",
+  "version": "0.1.0",
+  "description": "OpenClaw plugin for AI-powered robotic arm control",
+  "main": "index.ts",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Clawland-AI/clawarm.git",
+    "directory": "plugin"
+  },
+  "keywords": [
+    "openclaw",
+    "robotic-arm",
+    "pyagxarm",
+    "nero",
+    "piper"
+  ]
+}
