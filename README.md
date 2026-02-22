@@ -4,8 +4,6 @@
 
 Control NERO (7-DOF) and Piper (6-DOF) robotic arms with natural language through OpenClaw. Say what you want the arm to do — ClawArm generates and executes the motion.
 
-> Inspired by [AgileX Robotics' OpenClaw + NERO tutorial](https://mp.weixin.qq.com/s/V3EQ6E3ikN3srCzXrCOtiw).
-
 ## How It Works
 
 ```
@@ -193,4 +191,4 @@ docker compose up bridge
 
 MIT — see [LICENSE](LICENSE).
 
-Built by [Clawland-AI](https://github.com/Clawland-AI) · Powered by [OpenClaw](https://openclaw.ai/) and [pyAgxArm](https://github.com/agilexrobotics/pyAgxArm)
+Built by [Clawland-AI](https://github.com/Clawland-AI) · Powered by [OpenClaw](https://openclaw.ai/) 
