@@ -1,8 +1,6 @@
 <p align="center">
-  <img src="assets/clawarm-logo.png" alt="ClawArm Logo" width="200">
+  <img src="assets/clawarm-logo.png" alt="ClawArm Logo" width="480">
 </p>
-
-<h1 align="center">ClawArm</h1>
 
 <p align="center">
   <strong>AI-Powered Robotic Arm Control via OpenClaw</strong><br>
@@ -10,16 +8,17 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Clawland-AI/clawarm/actions"><img src="https://github.com/Clawland-AI/clawarm/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/Clawland-AI/clawarm/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Clawland-AI/clawarm" alt="License"></a>
-  <a href="https://github.com/Clawland-AI/clawarm"><img src="https://img.shields.io/github/stars/Clawland-AI/clawarm?style=social" alt="Stars"></a>
+  <a href="https://clawarm.ai">clawarm.ai</a> &middot;
+  <a href="https://github.com/Clawland-AI/clawarm">GitHub</a> &middot;
+  <a href="docs/architecture.md">Architecture</a> &middot;
+  <a href="docs/safety.md">Safety Guide</a>
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick Start</a> &middot;
-  <a href="docs/architecture.md">Architecture</a> &middot;
-  <a href="docs/safety.md">Safety Guide</a> &middot;
-  <a href="SECURITY.md">Security Policy</a>
+  <a href="https://clawarm.ai"><img src="https://img.shields.io/badge/website-clawarm.ai-blue" alt="Website"></a>
+  <a href="https://github.com/Clawland-AI/clawarm/actions"><img src="https://github.com/Clawland-AI/clawarm/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/Clawland-AI/clawarm/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Clawland-AI/clawarm" alt="License"></a>
+  <a href="https://github.com/Clawland-AI/clawarm"><img src="https://img.shields.io/github/stars/Clawland-AI/clawarm?style=social" alt="Stars"></a>
 </p>
 
 ---
@@ -240,5 +239,7 @@ docker compose up bridge
 MIT — see [LICENSE](LICENSE).
 
 <p align="center">
-  Built by <a href="https://github.com/Clawland-AI">Clawland AI</a> &middot; Powered by <a href="https://openclaw.ai/">OpenClaw</a>
+  <a href="https://clawarm.ai">clawarm.ai</a> &middot;
+  Built by <a href="https://github.com/Clawland-AI">Clawland AI</a> &middot;
+  Powered by <a href="https://openclaw.ai/">OpenClaw</a>
 </p>
